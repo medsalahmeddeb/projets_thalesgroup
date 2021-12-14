@@ -1,0 +1,18 @@
+---
+- name: Apache server installe
+  hosts: webservers
+  become: yes
+  tasks:
+  - name: la derniere version du httpd installe
+    yum:
+      name: httpd
+      state: latest
+  - name: Activation du service httpd
+    systemd:
+      name: httpd
+      state: started
+      enabled: true
+  - name: copier fichier index.html
+    copy:
+      src: index.html
+      dest: /var/www/html/index.html

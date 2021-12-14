@@ -1,0 +1,16 @@
+---
+- name: manage httpd.conf
+  hosts: app2
+  become: yes
+  tasks:
+  - name: Copy Apache configuration file
+    copy:
+      src: httpd.conf
+      dest: /etc/httpd/conf/
+    notify: retsart httpd server
+
+  handlers:
+  - name: retsart httpd server
+    systemd:
+      name: httpd
+      state: restarted

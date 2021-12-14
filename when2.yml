@@ -1,0 +1,10 @@
+---
+- name: MariaDB server installation
+  hosts: all
+  become: yes
+  tasks:
+  - name: Install latest MariaDB server when host RAM greater than 200 MB
+    yum:
+      name: mariadb-server
+      state: latest
+    when: ansible_memfree_mb > 200

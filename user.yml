@@ -1,0 +1,11 @@
+---
+- hosts: webservers
+  become: yes
+  vars_files:
+  - vars/info_users.yml
+  tasks:
+  - user:
+      name: "{{user}}"
+      group: "{{group}}"
+      home: "{{homedir}}"
+      shell: "{{shell}}"

@@ -1,0 +1,9 @@
+---
+- name: install service
+  hosts: webservers
+  become: true
+  tasks:
+  - systemd:
+      name: "{{ service }}"
+      enabled: true
+      state: started

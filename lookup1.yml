@@ -1,0 +1,10 @@
+---
+- name: Load env
+  gather_facts: no
+  hosts: all
+  vars:
+    my_env: "{{ lookup('file', '/etc/hosts') }}"
+  tasks:
+  - name: show the env
+    debug:
+      msg: "{{ my_env }}"

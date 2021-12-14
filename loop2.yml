@@ -1,0 +1,15 @@
+- name: Registered variable usage as a loop list
+  hosts: all
+  tasks:
+  - name: Retrieve the list of home directories
+    command: ls /home
+    register: home_dirs
+
+#  - debug: var=home_dirs
+
+  - name: Add home dirs to the backup spooler
+    file:
+      path: /tmp/{{ item }}
+      src: /home/{{ item }}
+      state: link
+    loop: "{{ home_dirs.stdout_lines }}"

@@ -1,0 +1,15 @@
+---
+- name: Installs a package and prints the result
+  hosts: dbservers
+  become: True
+  tasks:
+  - name: Install the package
+    apt:
+      name: mariadb-server 
+      state: present
+      update_cache: yes
+    register: install_result
+
+  - name: Affichage resultat 
+    debug: 
+      msg: "Le resultat est  : {{ install_result.changed }} "

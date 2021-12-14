@@ -1,0 +1,13 @@
+---
+- name: Loop demo
+  hosts: app1
+  vars:
+    liste_services:
+    - httpd
+    - sshd
+  tasks:
+  - name: Check if service is started
+    service:
+      name: "{{ item }}"
+      state: started
+    loop: "{{ liste_services }}"

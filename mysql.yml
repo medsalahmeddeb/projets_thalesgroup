@@ -1,0 +1,38 @@
+---
+- name: Deploiment du serveur Mysql
+  hosts: dbservers
+  tasks:
+  - name: Installer le serveur Mysql
+    apt: 
+      name: mariadb-server
+      state: present
+    become: true
+
+  - name: Demarrer le serveur Mysql
+    systemd:
+      name: mariadb
+      state: started
+      enabled: true
+    become: true
+
+  - name: Install python-mysqldb
+    apt: name=python3-pymysql update_cache=yes cache_valid_time=3600 state=present
+    become: yes
+
+  - name: Creation de la BD sitedb
+    become: yes
+    mysql_db:
+      login_user: root
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+      name: sitedb
+      state: present
+
+  - name: creation utilisateur admin
+    become: yes
+    mysql_user:
+      name: admin
+      password: "admin"
+      priv: '*.*:ALL'
+      state: present
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+      login_user: root

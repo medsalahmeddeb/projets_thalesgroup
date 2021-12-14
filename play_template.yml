@@ -1,0 +1,37 @@
+---
+- hosts: webservers
+  gather_facts: yes
+  tasks:
+  - name: bloc de taches install + configure
+    block:
+    - yum: name="{{ service }}" state=installed
+      tags:
+      - install
+
+    - name: Install index.html
+      template:
+        src: index.html.j2
+        dest: /var/www/html/index.html
+        mode: 0644
+      tags:
+      - config
+    become: yes
+    when: ansible_fqdn == "app2.dev"
+    tags:
+      - deploiment
+    rescue:
+      - debug: 
+          msg="Il y a un pb d'executionavec le block de deploiment"
+
+    always:
+      - debug: 
+          msg="Ce message sera traiter a chauqe execution"
+
+
+
+  - debug: msg="Always runs"
+
+  - copy:
+      src: file_local.txt
+      dest: ~/file_dest.txt
+    

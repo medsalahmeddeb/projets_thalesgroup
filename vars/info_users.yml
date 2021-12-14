@@ -1,0 +1,5 @@
+---
+user: admin
+group: wheel
+homedir: /dev/null
+shell: /bin/bash
